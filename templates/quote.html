@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html>
+<title>Quote Dispensing Engine</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Raleway">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+<link href='https://fonts.googleapis.com/css?family=Merienda+One' rel='stylesheet' type='text/css'>
+
+
+<style>
+body,h1,h2,h3,h4,h5,h6 {font-family: "Raleway", Arial, Helvetica, sans-serif}
+.myLink {display: none}
+
+
+	.Merienda_One { font-family: "Merienda One"; font-size: 30px; font-style: normal; font-variant: normal; font-weight: 300; line-height: 26.4px; }
+	.Merienda_One_g{ font-family: "Merienda One"; font-size: 30px; font-style: normal; font-variant: normal; font-weight: 300; line-height: 26.4px; color:#fef4e2; }
+
+div.quote {
+
+	padding-top: 20px;
+	padding-right: 20px;
+	padding-left: 20px;
+}
+
+#footer {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  height: 6.5rem;            
+}
+
+</STYLE>
+
+
+
+<BODY  bgcolor="#fef4e2">
+
+
+
+	<div class="w3-bar w3-border-bottom w3-xlarge w3-center"
+				style="width:100%; background-color:#406b86;">
+
+	
+	     <img src='static/images/inspire.png' style="height:130px" />
+		 <br>
+		 <div class="Merienda_One_g">
+		 Quote Dispensing Engine
+		 <br>
+		 </div>
+		 <br>
+	  			
+	</div>
+
+	<div id="quote" class="quote">
+		<div class="Merienda_One">
+			{{quote}}<BR><BR><BR>― {{author}}
+		</div>
+	</div>
+
+
+<footer class="w3-container w3-center w3-margin-bottom"  id="footer" >
+	<div class="w3-container w3-center">
+		<form id='myform' action="{{ url_for('quote_me') }}" method='GET'>
+			<button class="w3-button" type="submit" name='darker' id="darker" value='{{current_id}}'>
+				<img src='static/images/moon.png'  style="width:50px" />
+			</button>
+			<img src='static/images/hand.png' id='hand' style="width:100px" />
+			<button class="w3-button" name='brighter' id="brighter" type="submit" value='{{current_id}}'>
+				<img src='static/images/sun.png'  style="width:50px" />
+			</button>
+		</form>
+	</div>
+</footer>
+
+<SCRIPT type="text/javascript">
+
+    function swipedetect(el, callback){
+
+        var touchsurface = el,
+        swipedir,
+        startX,
+        startY,
+        distX,
+        distY,
+        threshold = 150, 
+        restraint = 100, 
+        allowedTime = 300, 
+        elapsedTime,
+        startTime,
+        handleswipe = callback || function(swipedir){}
+
+        touchsurface.addEventListener('touchstart', function(e){
+            var touchobj = e.changedTouches[0]
+            swipedir = 'none'
+            dist = 0
+            startX = touchobj.pageX
+            startY = touchobj.pageY
+            startTime = new Date().getTime() 
+            e.preventDefault()
+        }, false)
+
+        touchsurface.addEventListener('touchmove', function(e){
+            e.preventDefault() 
+        }, false)
+
+        touchsurface.addEventListener('touchend', function(e){
+            var touchobj = e.changedTouches[0]
+            distX = touchobj.pageX - startX 
+            distY = touchobj.pageY - startY 
+            elapsedTime = new Date().getTime() - startTime 
+            if (elapsedTime <= allowedTime){ 
+                if (Math.abs(distX) >= threshold && Math.abs(distY) <= restraint){ 
+                    swipedir = (distX < 0)? 'left' : 'right' 
+                }
+                else if (Math.abs(distY) >= threshold && Math.abs(distX) <= restraint){ 
+                    swipedir = (distY < 0)? 'up' : 'down' 
+                }
+            }
+            handleswipe(swipedir)
+            e.preventDefault()
+        }, false)
+    }
+
+    
+    var el = document.getElementById('quote');
+    swipedetect(el, function(swipedir){
+        
+        if (swipedir == "right") {
+            document.getElementById("brighter").click();
+        }
+        else if  (swipedir == "left")  {
+            document.getElementById("darker").click();
+        }
+    });
+
+    var hand = document.getElementById('hand');
+    swipedetect(hand, function(swipedir){
+        
+        if (swipedir == "right") {
+            document.getElementById("brighter").click();
+        }
+        else if  (swipedir == "left")  {
+            document.getElementById("darker").click();
+        }
+    });
+
+</SCRIPT>
+
+</BODY>
+
+
+</HTML>
